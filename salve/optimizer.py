@@ -22,7 +22,7 @@ def load_checkpoint():
 
 def genetic_algorithm(
     pop_size=80,
-    generations=10,
+    generations=30,
     mutation_rate=0.3,
     tournament_size=2,
     elitism_rate=0.1  # Novo parâmetro para elitismo
@@ -65,7 +65,9 @@ def genetic_algorithm(
 
     for generation in range(start_gen, generations):
         # Calcular o fitness da população
-        fitness = [evaluate_ant_with_sine_waves(ind) for ind in population]
+        with Pool(cpu_count()) as pool:
+            fitness = pool.map(evaluate_ant_with_sine_waves, population)
+
         best_fitness = np.max(fitness)
         mean_fitness = np.mean(fitness)
         print(f"🔄 Geração {generation} | ✅ Melhor: {best_fitness:.2f} | Média: {mean_fitness:.2f}")
@@ -89,6 +91,9 @@ def genetic_algorithm(
 
         # Salvar checkpoint
         save_checkpoint(population, generation)
+
+        with Pool(cpu_count()) as pool:
+            final_fitness = pool.map(evaluate_ant_with_sine_waves, population)
 
     # Melhor solução
     final_fitness = [evaluate_ant_with_sine_waves(ind) for ind in population]
