@@ -4,6 +4,7 @@ import os
 from multiprocessing import Pool, cpu_count
 
 from salve.fitness import evaluate_ant_with_sine_waves
+from salve.plot_wave import plot_sine_waves
 
 checkpoint_dir = "checkpoint"
 checkpoint_file = os.path.join(checkpoint_dir, "checkpoint.pkl")
@@ -21,8 +22,8 @@ def load_checkpoint():
     return data["population"], data["generation"]
 
 def genetic_algorithm(
-    pop_size=80,
-    generations=30,
+    pop_size=200,
+    generations=70,
     mutation_rate=0.3,
     tournament_size=2,
     elitism_rate=0.1  # Novo parâmetro para elitismo
@@ -107,4 +108,5 @@ def genetic_algorithm(
 
 if __name__ == "__main__":
     best = genetic_algorithm()
+    plot_sine_waves(best, separate_plots=False)
     evaluate_ant_with_sine_waves(best, render=True, record_video=True)
