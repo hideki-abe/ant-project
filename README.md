@@ -10,3 +10,8 @@
 
   **Ondas juntas**
   ![Logo do projeto](salve/sine_waves_plot.png)
+
+  **Vídeo capturado**
+  <p align="center">
+      <img src="salve/videos/demo.gif" alt="Demonstração">
+  </p>
