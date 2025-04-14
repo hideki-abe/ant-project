@@ -21,8 +21,8 @@ def load_checkpoint():
     return data["population"], data["generation"]
 
 def genetic_algorithm(
-    pop_size=80,
-    generations=30,
+    pop_size=200,
+    generations=80,
     mutation_rate=0.3,
     tournament_size=2,
     elitism_rate=0.1  # Novo parâmetro para elitismo
