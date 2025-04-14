@@ -22,10 +22,10 @@ def load_checkpoint():
 
 def genetic_algorithm(
     pop_size=80,
-    generations=30,
-    mutation_rate=0.3,
-    tournament_size=2,
-    elitism_rate=0.1  # Novo parâmetro para elitismo
+    generations=91,
+    mutation_rate=0.5,
+    tournament_size=4,
+    elitism_rate=0.02  # Novo parâmetro para elitismo
 ):
     num_joints = 8
 
@@ -36,17 +36,17 @@ def genetic_algorithm(
         return np.concatenate((freqs, amps, phases))
 
     def crossover(parent1, parent2):
-        alpha = 0.5
+        alpha = np.random.uniform(0.3, 0.7)
         return alpha * parent1 + (1 - alpha) * parent2
 
     def mutation(individual, mutation_rate):
-        if np.random.rand() < mutation_rate:
-            new_ind = individual.copy()
-            indices = np.random.randint(0, 24, size=12)
-            for i in indices:
-                new_ind[i] += np.random.normal(0, 0.5)
-            return new_ind
-        return individual
+        new_ind = individual.copy()
+        for i in range(len(new_ind)):
+            if np.random.rand() < mutation_rate:
+                # Pequena mutação constante + chance de uma mutação exploratória
+                noise = np.random.normal(0, 0.1) + (np.random.rand() < 0.1) * np.random.normal(0, 0.5)
+                new_ind[i] += noise
+        return new_ind
 
     def tournament_selection(population, fitness):
         selected = np.random.choice(len(population), tournament_size)
